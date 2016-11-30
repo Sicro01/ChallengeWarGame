@@ -22,6 +22,9 @@ namespace ChallengeGameOfWar_Si.Classes
             Player1Hand = new List<Card>();
             Player2Hand = new List<Card>();
         }
+        public void Test()
+        {
+        }
 
         public DeckOfCards PrepareDeckForGame()
         {
