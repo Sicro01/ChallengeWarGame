@@ -22,9 +22,6 @@ namespace ChallengeGameOfWar_Si.Classes
             Player1Hand = new List<Card>();
             Player2Hand = new List<Card>();
         }
-        public void Test()
-        {
-        }
 
         public DeckOfCards PrepareDeckForGame()
         {
@@ -80,7 +77,7 @@ namespace ChallengeGameOfWar_Si.Classes
         private DeckOfCards dealPlayerHands(DeckOfCards deckOfCards)
         {
             int cardIndex = 0;
-            for (int i = 1; i < 27; i++)
+            for (int i = 0; i < 26; i++)
             {
                 deckOfCards.Player1Hand.Add(deckOfCards.ShuffledDeckOfCards[cardIndex]);
                 cardIndex++;
