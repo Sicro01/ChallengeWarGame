@@ -19,7 +19,7 @@ namespace ChallengeGameOfWar_Si
         protected void okButton_Click(object sender, EventArgs e)
         {
             playTheGame();
-        }
+            }
 
         private void playTheGame()
         {
@@ -52,9 +52,7 @@ namespace ChallengeGameOfWar_Si
             {
                 resultLabel.Text += $"Player 2 wins with a card count of {deckOfCards.Player2Hand.Count} : Player 1 had a card count of {deckOfCards.Player1Hand.Count}.";
             }
-            else
             {
-                resultLabel.Text += $"Wars > 20 <br></br>";
                 resultLabel.Text += $"Player 1 had card count of {deckOfCards.Player1Hand.Count} : Player 2 had a card count of {deckOfCards.Player2Hand.Count}.";
             }
         }
@@ -66,17 +64,18 @@ namespace ChallengeGameOfWar_Si
             Card player2NormalRoundFaceCard;
 
 
-            while ((deckOfCards.Player1Hand.Count > 0 && deckOfCards.Player2Hand.Count > 0) || numberOfWarRounds < 21)
+            while (deckOfCards.Player1Hand.Count > 0 && deckOfCards.Player2Hand.Count > 0 && numberOfWarRounds < 20)
             {
                 player1NormalRoundFaceCard = deckOfCards.Player1Hand[0];
                 player2NormalRoundFaceCard = deckOfCards.Player2Hand[0];
-                numberNormalRounds++;
+                
 
                 if (player1NormalRoundFaceCard.CardValue > player2NormalRoundFaceCard.CardValue)
                 {
                     //Player 1 Wins - 
                     //Remove and re-add Player1's facecard; then add Player2's facecard to Player1's hand
                     //Remove Player2's facecard from their hand
+                    numberNormalRounds++;
                     deckOfCards.Player1Hand.RemoveAt(0);
                     deckOfCards.Player2Hand.RemoveAt(0);
                     deckOfCards.Player1Hand.Add(player1NormalRoundFaceCard);
@@ -87,6 +86,7 @@ namespace ChallengeGameOfWar_Si
                 else if (player2NormalRoundFaceCard.CardValue > player1NormalRoundFaceCard.CardValue)
                 {
                     //Player 2 Wins - remove and re-add Player2's facecard; then add Player1's facecard to Player2's hand
+                    numberNormalRounds++;
                     deckOfCards.Player1Hand.RemoveAt(0);
                     deckOfCards.Player2Hand.RemoveAt(0);
                     deckOfCards.Player2Hand.Add(player2NormalRoundFaceCard);
@@ -105,7 +105,7 @@ namespace ChallengeGameOfWar_Si
                     bool player1HasEnoughWarCards = deckOfCards.Player1Hand.Count > 3 ? true : false;
                     bool player2HasEnoughWarCards = deckOfCards.Player2Hand.Count > 3 ? true : false;
 
-                    if (numberOfWarRounds < 21 && player1HasEnoughWarCards && player2HasEnoughWarCards)
+                    if (numberOfWarRounds < 20 && player1HasEnoughWarCards && player2HasEnoughWarCards)
                     {
                         //Set up War Card variables
                         //Set up the Player's List to hold their War Cards and the War Face Cards
@@ -115,7 +115,7 @@ namespace ChallengeGameOfWar_Si
                         Card player2WarFaceCard;
                         bool warWon = false;
 
-                        while (numberOfWarRounds < 21 && player1HasEnoughWarCards && player2HasEnoughWarCards && !warWon)
+                        while (numberOfWarRounds < 20 && player1HasEnoughWarCards && player2HasEnoughWarCards && !warWon)
                         {
                             numberOfWarRounds++;
                             resultLabel.Text += $"**************** War (Round {numberOfWarRounds}) ****************<br></br>" +
@@ -160,7 +160,7 @@ namespace ChallengeGameOfWar_Si
                                 deckOfCards.Player1Hand.Add(player1NormalRoundFaceCard);
                                 deckOfCards.Player1Hand.Add(player2NormalRoundFaceCard);
                                 resultLabel.Text += $"Player 1 # cards {deckOfCards.Player1Hand.Count} : Player 2 # cards {deckOfCards.Player2Hand.Count}<br> </br> ";
-                                player1HasEnoughWarCards = deckOfCards.Player1Hand.Count > 3 ? true : false;
+                                //player1HasEnoughWarCards = deckOfCards.Player1Hand.Count > 3 ? true : false;
                                 player2HasEnoughWarCards = deckOfCards.Player2Hand.Count > 3 ? true : false;
                                 warWon = true;
                             }
@@ -181,44 +181,45 @@ namespace ChallengeGameOfWar_Si
                                 deckOfCards.Player2Hand.Add(player2NormalRoundFaceCard);
                                 resultLabel.Text += $"Player 1 # cards {deckOfCards.Player1Hand.Count} : Player 2 # cards {deckOfCards.Player2Hand.Count}<br> </br> ";
                                 player1HasEnoughWarCards = deckOfCards.Player1Hand.Count > 3 ? true : false;
-                                player2HasEnoughWarCards = deckOfCards.Player2Hand.Count > 3 ? true : false;
+                                //player2HasEnoughWarCards = deckOfCards.Player2Hand.Count > 3 ? true : false;
                                 warWon = true;
                             }
+                            else
+                            {
+                                player1HasEnoughWarCards = deckOfCards.Player1Hand.Count > 3 ? true : false;
+                                player2HasEnoughWarCards = deckOfCards.Player2Hand.Count > 3 ? true : false;
+                                if (!player2HasEnoughWarCards)
+                                {
+                                    //Player 1 Wins the War
+                                    for (int i = 0; i < player1WarCards.Count; i++)
+                                    {
+                                        //Add back in all of Player 1's cards
+                                        deckOfCards.Player1Hand.Add(player1WarCards[i]);
+                                        //Add in all of Player 2's cards
+                                        deckOfCards.Player1Hand.Add(player2WarCards[i]);
+                                    }
+                                    deckOfCards.Player1Hand.Add(player1NormalRoundFaceCard);
+                                    deckOfCards.Player1Hand.Add(player2NormalRoundFaceCard);
+                                    resultLabel.Text += $"Player 1 Wins as Player 2 only has {deckOfCards.Player2Hand.Count} cards left and can't play War.<br> </br> ";
+                                    return deckOfCards;
+                                }
+                                else if (!player1HasEnoughWarCards)
+                                {
+                                    for (int i = 0; i < player2WarCards.Count; i++)
+                                    {
+                                        //Add back in all of Player 2's cards
+                                        deckOfCards.Player2Hand.Add(player2WarCards[i]);
+                                        //Add in all of Player 1's cards
+                                        deckOfCards.Player2Hand.Add(player1WarCards[i]);
+                                    }
+                                    deckOfCards.Player1Hand.Add(player1NormalRoundFaceCard);
+                                    deckOfCards.Player1Hand.Add(player2NormalRoundFaceCard);
+                                    resultLabel.Text += $"Player 2 Wins as Player 1 only has {deckOfCards.Player1Hand.Count} cards left and can't play War.<br> </br> ";
+                                    return deckOfCards;
+                                }
+                            }
                         }
                     }
-                    else
-                    {
-                        player1HasEnoughWarCards = deckOfCards.Player1Hand.Count > 3 ? true : false;
-                        player2HasEnoughWarCards = deckOfCards.Player2Hand.Count > 3 ? true : false;
-                        if (!player2HasEnoughWarCards)
-                        {
-                            //Player 1 Wins the War
-                            for (int i = 0; i < player1WarCards.Count; i++)
-                            {
-                                //Add back in all of Player 1's cards
-                                deckOfCards.Player1Hand.Add(player1WarCards[i]);
-                                //Add in all of Player 2's cards
-                                deckOfCards.Player1Hand.Add(player2WarCards[i]);
-                            }
-                            deckOfCards.Player1Hand.Add(player1NormalRoundFaceCard);
-                            deckOfCards.Player1Hand.Add(player2NormalRoundFaceCard);
-                            return deckOfCards;
-                        }
-                        else if (!player1HasEnoughWarCards)
-                        {
-                            for (int i = 0; i < player2WarCards.Count; i++)
-                            {
-                                //Add back in all of Player 2's cards
-                                deckOfCards.Player2Hand.Add(player2WarCards[i]);
-                                //Add in all of Player 1's cards
-                                deckOfCards.Player2Hand.Add(player1WarCards[i]);
-                            }
-                            deckOfCards.Player1Hand.Add(player1NormalRoundFaceCard);
-                            deckOfCards.Player1Hand.Add(player2NormalRoundFaceCard);
-                            return deckOfCards;
-                        }
-                    }
-                 }
                 }
             }
             //If either player dropped out because they have less then 4 cards they lose
