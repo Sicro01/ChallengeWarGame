@@ -112,8 +112,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Card.cs" />
-    <Compile Include="Classes\DeckOfCards.cs" />
-    <Compile Include="Classes\NormalRound.cs" />
+    <Compile Include="Classes\PrepareTheCards.cs" />
+    <Compile Include="Classes\Game.cs" />
+    <Compile Include="Classes\Player.cs" />
+    <Compile Include="Classes\Round.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
