@@ -69,7 +69,7 @@ namespace ChallengeGameOfWar_Si.Classes
             for (int i = 0; i < 26; i++)
             {
                 players[0].PlayerHand.Add(prepareTheCards.ShuffledDeckOfCards[i]);
-                players[1].PlayerHand.Add(prepareTheCards.ShuffledDeckOfCards[i+1]);
+                players[1].PlayerHand.Add(prepareTheCards.ShuffledDeckOfCards[i+26]);
             }
             return players;
         }
