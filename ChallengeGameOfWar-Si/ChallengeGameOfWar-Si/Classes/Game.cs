@@ -25,7 +25,7 @@ namespace ChallengeGameOfWar_Si.Classes
             round.Players = players;
 
             //Play Rounds until either one of the Player's has no more cards OR either one has too few cards to play a War Round OR they've played 20 War Rounds
-            while (round.Players[0].PlayerHand.Count > 0 && round.Players[1].PlayerHand.Count > 0 && Round.CumulativeRoundNumber < 20)
+            while (round.Players[0].PlayerHand.Count > 0 && round.Players[1].PlayerHand.Count > 0 && Round.NumberOfWarRounds < 20)
             {
                 //Play a Round and add it to the Game so we can print out the results after the Game has finished
                 game.Rounds.Add(round.playARound(round));

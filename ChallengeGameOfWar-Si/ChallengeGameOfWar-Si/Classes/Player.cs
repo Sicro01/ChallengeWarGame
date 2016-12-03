@@ -10,7 +10,7 @@ namespace ChallengeGameOfWar_Si.Classes
         public string PlayerName { get; set; }
         public List<Card> PlayerHand { get; set; }
         public List<Card> PlayerWarCards { get; set; }
-        public bool InsufficientCardsToPlayWar { get; set; }
+        public bool SufficientCardsToPlayWar { get; set; } = true;
 
         public Player()
         {
