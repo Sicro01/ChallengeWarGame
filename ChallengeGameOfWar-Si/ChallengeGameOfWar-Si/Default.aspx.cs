@@ -39,7 +39,7 @@ namespace ChallengeGameOfWar_Si
 
         private void printTheGame(Game game)
         {
-            
+
 
             foreach (Round round in game.Rounds)
             {
@@ -47,19 +47,43 @@ namespace ChallengeGameOfWar_Si
                 Player loser = (round.Player0IsTheWinner) ? round.Players[1] : round.Players[0];
                 int winnerListIndex = (round.Player0IsTheWinner) ? 0 : 1;
                 int loserListIndex = (round.Player0IsTheWinner) ? 1 : 0;
-                string draw = (round.Player0IsTheWinner || round.Player1IsTheWinner) ? "Not a Draw" : "Draw";
+                //string draw = (round.Player0IsTheWinner || round.Player1IsTheWinner) ? "Not a Draw" : "Draw";
 
-                resultLabel.Text +=
-                    $"Round Number/Type: {round.RoundNumber} / {round.TypeOfRound}:  {draw}        " +
-                    $"Winner: {winner.PlayerName} played  a {round.PlayerFaceCards[winnerListIndex].Name} of {round.PlayerFaceCards[winnerListIndex].Suit} " +
-                    $"beating {loser.PlayerName} who played {round.PlayerFaceCards[loserListIndex].Name} of {round.PlayerFaceCards[loserListIndex].Suit}" +
-                    "<br> </br>";
+                if (!round.ItsWar)
+                {
+                    resultLabel.Text +=
+                        $"Round Number/Type: {round.RoundNumber} / {round.TypeOfRound}:   " +
+                        $"Winner: {winner.PlayerName} played  a {round.PlayerFaceCards[winnerListIndex].Name} of {round.PlayerFaceCards[winnerListIndex].Suit} " +
+                        $"beating {loser.PlayerName} who played {round.PlayerFaceCards[loserListIndex].Name} of {round.PlayerFaceCards[loserListIndex].Suit}<br></br>" ;
 
-                resultLabel.Text +=
-                    $"{winner.PlayerName} has {round.PlayerEndOfRoundCardCount[winnerListIndex]} and {loser.PlayerName} has {round.PlayerEndOfRoundCardCount[loserListIndex]} " +
-                    $"- totalling {round.PlayerEndOfRoundCardCount[winnerListIndex] + round.PlayerEndOfRoundCardCount[loserListIndex]} cards." +
-                    "<br> </br>" +
-                    "<br> </br>";
+                    resultLabel.Text +=
+                        $"{winner.PlayerName} has {round.PlayerEndOfRoundCardCount[winnerListIndex]} and {loser.PlayerName} has {round.PlayerEndOfRoundCardCount[loserListIndex]} " +
+                        $"- totalling {round.PlayerEndOfRoundCardCount[winnerListIndex] + round.PlayerEndOfRoundCardCount[loserListIndex]} cards." +
+                        "<br></br>" +
+                        "<br></br>";
+                }
+                else if(round.ItsWar)
+                {
+                    resultLabel.Text +=
+                    $"<h2>Round Number/Type: {round.RoundNumber} / {round.TypeOfRound}:   War Round Number: {round.WarRoundNumber}</h2>" +
+                    $"Winner of the War: {winner.PlayerName} played  a {round.PlayerFaceCardsTriggeringWar[winnerListIndex].Name} of {round.PlayerFaceCardsTriggeringWar[winnerListIndex].Suit} " +
+                    $"and {loser.PlayerName} played {round.PlayerFaceCardsTriggeringWar[loserListIndex].Name} of {round.PlayerFaceCardsTriggeringWar[loserListIndex].Suit} triggering War.<br></br>";
+
+                    resultLabel.Text +=
+                        $"{winner.PlayerName} has {round.PlayerEndOfRoundCardCount[winnerListIndex]} and {loser.PlayerName} has {round.PlayerEndOfRoundCardCount[loserListIndex]} " +
+                        $"- totalling {round.PlayerEndOfRoundCardCount[winnerListIndex] + round.PlayerEndOfRoundCardCount[loserListIndex]} cards." +
+                        "<br></br>" +
+                        "<br></br>";
+                };
+
+                if (round.PlayerHasInsufficnetCardsToPlayWar)
+                {
+                    resultLabel.Text += "<h2>Game ended as Player has insuffricinet cards to play War.</h2><br></br>";
+                }
+                else if (round.ReachedMaxNumberOfWarRounds)
+                {
+                    resultLabel.Text += "<h2>Game ended as Player has insuffricinet cards to play War.</h2><br></br>";
+                };
             }
         }
         private void printTheHands(List<Player> players)
