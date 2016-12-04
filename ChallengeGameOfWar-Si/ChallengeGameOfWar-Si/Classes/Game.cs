@@ -29,10 +29,10 @@ namespace ChallengeGameOfWar_Si.Classes
             {
                 //Play a Round and add it to the Game so we can print out the results after the Game has finished
                 game.Rounds.Add(round.playARound(round));
-                if (round.RoundNumber > 999)
-                {
-                    break;
-                }
+                //if (round.RoundNumber > 999)
+                //{
+                //    break;
+                //}
                 //Create a new Round - but keep the Players and their Hand's
                 Round newRound = new Round() { Players = round.Players };
                 round = newRound;
